@@ -19,14 +19,15 @@ public class HealthInsurance implements Serializable{
     private Integer id;
 
     @Column(nullable = false)
-    private String insuranceName;
+    private String insuranceNumber;
 
     @Column(nullable = false)
     private Date dueDate;
 
     @Column(nullable = false)
-    private boolean isValid;
+    private boolean isValidation;
 
-    @OneToOne(mappedBy = "healthInsurance", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_info_id")
     private PatientInfo patientInfo;
 }

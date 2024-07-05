@@ -18,10 +18,6 @@ public class MedicinePrescription implements Serializable{
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    private Account account;
-
     @OneToMany(mappedBy = "medicinePrescription", cascade = CascadeType.ALL)
     private Collection<MedicineItem> medicineItems;
 

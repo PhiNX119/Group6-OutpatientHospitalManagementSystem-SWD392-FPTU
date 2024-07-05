@@ -5,17 +5,14 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "fee_payment")
-public class FeePayment implements Serializable{
+@Table(name = "hospital_fee_payment")
+public class HospitalFeePayment implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -34,9 +31,7 @@ public class FeePayment implements Serializable{
     @JoinColumn(name = "cashier_counter_staff_id")
     private Account account;
 
-    @OneToMany(mappedBy = "feePayment", cascade = CascadeType.ALL)
-    private Collection<MedicalRecord> medicalRecords;
-
-    @OneToMany(mappedBy = "feePayment", cascade = CascadeType.ALL)
-    private Collection<PatientInfo> patientInfos;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "medical_record_id")
+    private MedicalRecord medicalRecord;
 }

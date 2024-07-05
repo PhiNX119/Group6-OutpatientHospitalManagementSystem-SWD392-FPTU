@@ -32,6 +32,7 @@ public class MedicalExaminationHistory implements Serializable{
     @JoinColumn(name = "patient_id")
     private PatientInfo patientInfo;
 
-    @OneToOne(mappedBy = "medicalExaminationHistory", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 }
