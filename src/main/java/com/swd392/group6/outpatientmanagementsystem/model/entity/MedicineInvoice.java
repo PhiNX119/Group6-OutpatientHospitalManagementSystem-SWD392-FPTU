@@ -25,7 +25,7 @@ public class MedicineInvoice implements Serializable{
     @Column(nullable = false)
     private Date dueDate;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 

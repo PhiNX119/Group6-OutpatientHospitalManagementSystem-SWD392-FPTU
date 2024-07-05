@@ -20,7 +20,7 @@ public class PatientInfo implements Serializable{
     private Integer id;
 
     @Column(nullable = false)
-    private String patientName;
+    private String name;
 
     @Column(nullable = false)
     private Date dateOfBirth;
@@ -34,12 +34,7 @@ public class PatientInfo implements Serializable{
     @Column(nullable = false)
     private String phoneNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "fee_payment_id")
-    private FeePayment feePayment;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "health_insurance_id")
+    @OneToOne(mappedBy = "patientInfo", cascade = CascadeType.ALL)
     private HealthInsurance healthInsurance;
 
     @OneToMany(mappedBy = "patientInfo", cascade = CascadeType.ALL)

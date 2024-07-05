@@ -26,7 +26,7 @@ public class Account implements Serializable {
     private String password;
 
     @Column
-    private String accountName;
+    private String name;
 
     @Column
     private Date dateOfBirth;
@@ -56,10 +56,10 @@ public class Account implements Serializable {
     private Department department;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private Collection<FeePayment> feePayments;
+    private Collection<HospitalFeePayment> hospitalFeePayments;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private Collection<MedicinePrescription> medicinePrescriptions;
+    private Collection<MedicalRecord> medicalRecords;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private  Collection<MedicalExaminationHistory> medicalExaminationHistories;

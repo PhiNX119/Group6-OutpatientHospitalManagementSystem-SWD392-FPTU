@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,7 +18,7 @@ public class MedicalRecord implements Serializable{
     private Integer id;
 
     @Column(nullable = false)
-    private String medicalDescription;
+    private String description;
 
     @Column(nullable = false)
     private String doctorAdvise;
@@ -28,17 +27,15 @@ public class MedicalRecord implements Serializable{
     @JoinColumn(name = "doctor_id")
     private Account account;
 
-    @ManyToOne
-    @JoinColumn(name = "fee_payment_id")
-    private FeePayment feePayment;
+    @OneToOne(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
+    private HospitalFeePayment hospitalFeePayment;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "medical_examination_history_id")
+    @OneToOne(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
+    private MedicineInvoice medicineInvoice;
+
+    @OneToOne(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
+    private ServiceInvoice serviceInvoice;
+
+    @OneToOne(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
     private MedicalExaminationHistory medicalExaminationHistory;
-
-    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
-    private Collection<MedicineInvoice> medicineInvoices;
-
-    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
-    private Collection<ServiceInvoice> serviceInvoices;
 }

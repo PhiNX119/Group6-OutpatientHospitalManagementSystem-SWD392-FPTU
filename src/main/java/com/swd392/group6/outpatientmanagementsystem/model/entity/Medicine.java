@@ -19,7 +19,7 @@ public class Medicine implements Serializable {
     private Integer id;
 
     @Column(nullable = false)
-    private String medicineName;
+    private String name;
 
     @Column(nullable = false)
     private int quantity;

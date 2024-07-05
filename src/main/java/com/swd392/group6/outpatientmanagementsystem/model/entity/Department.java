@@ -22,7 +22,7 @@ public class Department implements Serializable {
     private Integer id;
 
     @Column(nullable = false)
-    private String departmentName;
+    private String name;
 
     @Column(nullable = false)
     private boolean isActive;
