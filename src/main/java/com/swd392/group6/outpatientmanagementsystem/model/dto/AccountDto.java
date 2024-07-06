@@ -16,8 +16,15 @@ import java.io.Serializable;
 public class AccountDto implements Serializable {
     @NotBlank(message = "This field is required.")
     String username;
+
     @NotBlank(message = "This field is required.")
     String password;
 
     boolean isActive;
+
+    public void loadFromEntity(Account entity) {
+        this.username = entity.getUsername();
+        this.password = entity.getPassword();
+        this.isActive = entity.isActive();
+    }
 }

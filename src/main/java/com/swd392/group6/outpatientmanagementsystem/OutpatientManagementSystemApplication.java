@@ -16,27 +16,27 @@ public class OutpatientManagementSystemApplication {
 		SpringApplication.run(OutpatientManagementSystemApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner commandLineRunner(RoleRepository roleRepository,
-											   AccountService accountService) {
-		return runner -> {
-			// insert default role
-			Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
-			if (roleAdmin == null) {
-				Role role1 = new Role();
-				role1.setName("ROLE_ADMIN");
-				roleRepository.save(role1);
-			}
-
-			// insert default user
-			AccountDto accountDto = new AccountDto();
-			accountDto.setUsername("admin");
-			accountDto.setPassword("admin");
-			accountDto.setActive(true);
-
-			if (accountService.findAccountByUsername(accountDto.getUsername()) == null){
-				accountService.saveAdmin(accountDto);
-			}
-		};
-	}
+//	@Bean
+//	public CommandLineRunner commandLineRunner(RoleRepository roleRepository,
+//											   AccountService accountService) {
+//		return runner -> {
+//			// insert default role
+//			Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
+//			if (roleAdmin == null) {
+//				Role role1 = new Role();
+//				role1.setName("ROLE_ADMIN");
+//				roleRepository.save(role1);
+//			}
+//
+//			// insert default user
+//			AccountDto accountDto = new AccountDto();
+//			accountDto.setUsername("admin");
+//			accountDto.setPassword("admin");
+//			accountDto.setActive(true);
+//
+//			if (accountService.findAccountByUsername(accountDto.getUsername()) == null){
+//				accountService.saveAdmin(accountDto);
+//			}
+//		};
+//	}
 }

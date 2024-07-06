@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Nationalized;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -22,6 +23,7 @@ public class Department implements Serializable {
     private Integer id;
 
     @Column(nullable = false)
+    @Nationalized
     private String name;
 
     @Column(nullable = false)

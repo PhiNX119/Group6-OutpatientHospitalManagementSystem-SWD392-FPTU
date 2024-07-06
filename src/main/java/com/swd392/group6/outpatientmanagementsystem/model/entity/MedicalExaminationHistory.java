@@ -2,6 +2,7 @@ package com.swd392.group6.outpatientmanagementsystem.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Nationalized;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -19,6 +20,7 @@ public class MedicalExaminationHistory implements Serializable{
     private Integer id;
 
     @Column(nullable = false)
+    @Nationalized
     private String examinationDescription;
 
     @Column(nullable = false)
