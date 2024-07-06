@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 @AllArgsConstructor
@@ -24,6 +25,6 @@ public class Role implements Serializable {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<Account> accounts;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    private Collection<Account> accounts;
 }
