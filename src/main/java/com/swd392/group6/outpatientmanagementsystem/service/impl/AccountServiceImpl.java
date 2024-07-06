@@ -46,21 +46,17 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public void saveAccountWithRole(AccountDto accountDto, String roleName) {
-        // insert account first
-        Account account = new Account();
-        account.loadFromDto(accountDto);
-        account.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-        accountRepository.save(account);
-
-        // then set role for account
-        Account updateAccount = accountRepository.findByUsername(account.getUsername());
-
         Role role = roleRepository.findByName(roleName);
         if (role == null) {
             role = checkRoleExist(roleName);
         }
-        updateAccount.setRoles(Arrays.asList(role));
-        accountRepository.save(updateAccount);
+
+        Account account = new Account();
+        account.loadFromDto(accountDto);
+        account.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+        account.setRole(role);
+
+        accountRepository.save(account);
     }
 
     /**
