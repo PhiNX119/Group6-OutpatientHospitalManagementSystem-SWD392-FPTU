@@ -1,7 +1,9 @@
 package com.swd392.group6.outpatientmanagementsystem.model.entity;
 
+import com.swd392.group6.outpatientmanagementsystem.model.dto.MedicineDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Nationalized;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -19,6 +21,7 @@ public class Medicine implements Serializable {
     private Integer id;
 
     @Column(nullable = false)
+    @Nationalized
     private String name;
 
     @Column(nullable = false)
@@ -27,7 +30,8 @@ public class Medicine implements Serializable {
     @Column(nullable = false)
     private double price;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
+    @Nationalized
     private String description;
 
     @Column(nullable = false)
@@ -35,4 +39,12 @@ public class Medicine implements Serializable {
 
     @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL)
     private Collection<MedicineItem> medicineItems;
+
+    public void loadFromDto(MedicineDto dto) {
+        this.name = dto.getName();
+        this.quantity = dto.getQuantity();
+        this.price = dto.getPrice();
+        this.description = dto.getDescription();
+        this.isActive = dto.isActive();
+    }
 }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:insert="~{fragments/bootstrap.html :: bootstrapFragment}"></th:block>
+</head>
+<body>
+<header th:insert="~{fragments/navbar.html :: navbar}"></header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Medicine Detail</h2>
+            <hr>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${medicineDto.name}"></h5>
+                    <p class="card-text"><strong>Price:</strong> <span th:text="${medicineDto.price}"></span></p>
+                    <p class="card-text"><strong>Quantity:</strong> <span th:text="${medicineDto.quantity}"></span></p>
+                    <p class="card-text"><strong>Description:</strong> <span th:text="${medicineDto.description}"></span></p>
+                    <p class="card-text"><strong>Active:</strong> <span th:text="${medicineDto.isActive ? 'Yes' : 'No'}"></span></p>
+                    <a th:href="@{/medicine/list}" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>

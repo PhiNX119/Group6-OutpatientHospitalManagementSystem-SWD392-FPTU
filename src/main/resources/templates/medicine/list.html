@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:insert="~{fragments/bootstrap.html :: bootstrapFragment}"></th:block>
+</head>
+<body>
+<header th:insert="~{fragments/navbar.html :: navbar}"></header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Medicine List</h2>
+            <hr>
+            <button type="button" class="btn btn-secondary mb-2" th:onclick="|window.location='@{/medicine/add}'|">Add new Medicine</button>
+            <div th:if="${param.addSuccess}">
+                <div class="alert alert-success">Add medicine successfully.</div>
+            </div>
+            <hr>
+            <table id="medicine-list" class="table table-striped" style="width:100%">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="medicine : ${medicineList}">
+                    <td th:text="${medicine.id}"></td>
+                    <td th:text="${medicine.name}"></td>
+                    <td th:text="${medicine.quantity}"></td>
+                    <td th:text="${medicine.price}"></td>
+                    <td th:text="${medicine.description}"></td>
+                    <td>
+                        <a th:href="@{/medicine/detail(id=${medicine.id})}" class="btn btn-secondary btn-sm">Details</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    new DataTable('#medicine-list');
+</script>
+</body>

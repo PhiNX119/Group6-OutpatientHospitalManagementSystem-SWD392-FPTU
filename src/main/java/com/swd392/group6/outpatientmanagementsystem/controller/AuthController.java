@@ -35,7 +35,7 @@ public class AuthController {
      * @author phinx
      * @description redirect to home page for each actor
      */
-    @GetMapping(value = {"/login"})
+    @GetMapping("/login")
     public String login(Model model) {
         return "login";
     }

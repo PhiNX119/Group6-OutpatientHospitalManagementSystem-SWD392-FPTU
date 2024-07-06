@@ -1,7 +1,9 @@
 package com.swd392.group6.outpatientmanagementsystem.model.entity;
 
+import com.swd392.group6.outpatientmanagementsystem.model.dto.AccountDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Nationalized;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -20,12 +22,15 @@ public class Account implements Serializable {
     private Integer id;
 
     @Column(nullable = false, unique = true)
+    @Nationalized
     private String username;
 
     @Column(nullable = false)
+    @Nationalized
     private String password;
 
     @Column
+    @Nationalized
     private String name;
 
     @Column
@@ -35,6 +40,7 @@ public class Account implements Serializable {
     private boolean gender;
 
     @Column
+    @Nationalized
     private String address;
 
     @Column
@@ -63,4 +69,10 @@ public class Account implements Serializable {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private  Collection<MedicalExaminationHistory> medicalExaminationHistories;
+
+    public void loadFromDto(AccountDto dto) {
+        this.username = dto.getUsername();
+        this.password = dto.getPassword();
+        this.isActive = dto.isActive();
+    }
 }

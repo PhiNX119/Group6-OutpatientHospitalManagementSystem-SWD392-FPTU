@@ -11,7 +11,7 @@ import java.util.List;
 public interface AccountService {
     CustomUserDetails getUserDetail();
 
-    void saveAdmin(AccountDto accountDto);
+    void saveAccountWithRole(AccountDto accountDto, String roleName);
 
     Account findAccountByUsername(String username);
 
