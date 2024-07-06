@@ -42,26 +42,21 @@ public class AccountServiceImpl implements AccountService {
 
     /**
      * @author phinx
-     * @description insert default user - admin
+     * @description insert new account
      */
     @Override
-    public void saveAdmin(AccountDto accountDto) {
-        // insert admin account first
-        Account account = new Account();
-        account.setUsername(accountDto.getUsername());
-        account.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-        account.setActive(accountDto.isActive());
-        accountRepository.save(account);
-
-        // then set role admin for admin
-        Account updateAccount = accountRepository.findByUsername(account.getUsername());
-
-        Role role = roleRepository.findByName("ROLE_ADMIN");
+    public void saveAccountWithRole(AccountDto accountDto, String roleName) {
+        Role role = roleRepository.findByName(roleName);
         if (role == null) {
-            role = checkRoleExist("ROLE_ADMIN");
+            role = checkRoleExist(roleName);
         }
-        updateAccount.setRoles(Arrays.asList(role));
-        accountRepository.save(updateAccount);
+
+        Account account = new Account();
+        account.loadFromDto(accountDto);
+        account.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+        account.setRole(role);
+
+        accountRepository.save(account);
     }
 
     /**
@@ -76,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
 
     /**
      * @author phinx
-     * @description get user detail by username
+     * @description get account by username
      */
     @Override
     public Account findAccountByUsername(String username) {
@@ -85,7 +80,7 @@ public class AccountServiceImpl implements AccountService {
 
     /**
      * @author phinx
-     * @description get user list
+     * @description get account list
      */
     @Override
     public List<Account> findAll() {

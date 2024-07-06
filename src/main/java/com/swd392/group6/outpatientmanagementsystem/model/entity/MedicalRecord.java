@@ -2,6 +2,7 @@ package com.swd392.group6.outpatientmanagementsystem.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Nationalized;
 
 import java.io.Serializable;
 
@@ -18,9 +19,11 @@ public class MedicalRecord implements Serializable{
     private Integer id;
 
     @Column(nullable = false)
+    @Nationalized
     private String description;
 
     @Column(nullable = false)
+    @Nationalized
     private String doctorAdvise;
 
     @ManyToOne

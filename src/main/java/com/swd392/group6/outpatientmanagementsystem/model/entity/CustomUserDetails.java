@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 @Data
 @AllArgsConstructor
@@ -19,10 +19,8 @@ public class CustomUserDetails implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection < ? extends GrantedAuthority> mapRoles = account.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toList());
-        return mapRoles;
+        Role role = account.getRole();
+        return Collections.singletonList(new SimpleGrantedAuthority(role.getName()));
     }
 
     @Override

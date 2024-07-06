@@ -37,11 +37,10 @@ public class SpringSecurity {
                         csrf -> csrf.disable()
                 ).authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("login").permitAll()
-                                .requestMatchers("/", "/home", "/home/**").authenticated()
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/error-403").permitAll()
+                                .requestMatchers("login", "/error-403").permitAll()
                                 .requestMatchers("/js/**", "/css/**", "/images/**").permitAll()
+                                .requestMatchers("/account/**").hasRole("ADMIN")
+                                .requestMatchers("/medicine/**").hasAnyRole("ADMIN", "PHARMACY-STAFF")
                                 .anyRequest().authenticated()
                 ).formLogin(
                         form -> form

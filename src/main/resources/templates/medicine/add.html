@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:insert="~{fragments/bootstrap.html :: bootstrapFragment}"></th:block>
+</head>
+<body>
+<header th:insert="~{fragments/navbar.html :: navbar}"></header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Add new Medicine</h2>
+            <hr>
+            <form method="post" th:action="@{/medicine/add}" th:object="${medicineDto}" role="form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Name">
+                    <p th:errors="*{name}" class="text-danger"
+                       th:if="${#fields.hasErrors('name')}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" class="form-control" id="quantity" th:field="*{quantity}" placeholder="Quantity">
+                    <p th:errors="*{quantity}" class="text-danger"
+                       th:if="${#fields.hasErrors('quantity')}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" class="form-control" id="price" th:field="*{price}" placeholder="Price">
+                    <p th:errors="*{price}" class="text-danger"
+                       th:if="${#fields.hasErrors('price')}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" id="description" th:field="*{description}" rows="3"></textarea>
+                    <p th:errors="*{description}" class="text-danger"
+                       th:if="${#fields.hasErrors('description')}"></p>
+                </div>
+                <button type="submit" class="btn btn-secondary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
