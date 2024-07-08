@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:insert="~{fragments/bootstrap.html :: bootstrapFragment}"></th:block>
+</head>
+<body>
+<header th:insert="~{fragments/navbar.html :: navbar}"></header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Medical History Examination List</h2>
+            <hr>
+            <button type="button" class="btn btn-secondary mb-2" th:onclick="|window.location='@{/medical-examination-history/add}'|">Add new Medical History Examination</button>
+            <div th:if="${param.addSuccess}">
+                <div class="alert alert-success">Add medical history examination successfully.</div>
+            </div>
+            <hr>
+            <table id="examination-list" class="table table-striped" style="width:100%">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Staff ID</th>
+                    <th scope="col">Created Date</th>
+                    <th scope="col">Patient ID</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="e,stat : ${examinationList}">
+                    <td th:text="${stat.index + 1}"></td>
+                    <td th:text="${e.staffId}"></td>
+                    <td th:text="${e.createdDate}"></td>
+                    <td th:text="${e.patientId}"></td>
+                    <td th:text="${e.description}"></td>
+                    <td>
+                        <a th:href="@{/medical-examination-history/detail(id=${medicine.id})}" class="btn btn-secondary btn-sm">Details</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    new DataTable('#examination-list');
+</script>
+</body>
