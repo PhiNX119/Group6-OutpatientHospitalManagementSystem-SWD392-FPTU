@@ -1,9 +1,11 @@
 package com.swd392.group6.outpatientmanagementsystem.model.dto;
 
+import com.swd392.group6.outpatientmanagementsystem.model.entity.Account;
 import com.swd392.group6.outpatientmanagementsystem.model.entity.MedicalExaminationHistory;
+import com.swd392.group6.outpatientmanagementsystem.model.entity.MedicalRecord;
 import com.swd392.group6.outpatientmanagementsystem.model.entity.PatientInfo;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.swd392.group6.outpatientmanagementsystem.repository.PatientInfoRepository;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +29,12 @@ public class MedicalExaminationHistoryDto implements Serializable {
     int staffId;
     @NotNull(message = "This field is required.")
     int patientId;
+    @NotNull(message = "This field is required.")
+    int medicalRecordId;
+
+    PatientInfo patientInfo;
+    MedicalRecord medicalRecord;
+    Account account;
 
     public void loadFromEntity(MedicalExaminationHistory entity) {
         this.id = entity.getId();
@@ -34,5 +42,6 @@ public class MedicalExaminationHistoryDto implements Serializable {
         this.description = entity.getExaminationDescription();
         this.staffId = entity.getAccount().getId();
         this.patientId = entity.getPatientInfo().getId();
+        this.medicalRecordId = entity.getMedicalRecord().getId();
     }
 }
