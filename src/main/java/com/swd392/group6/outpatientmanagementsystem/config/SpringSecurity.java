@@ -37,7 +37,7 @@ public class SpringSecurity {
                         csrf -> csrf.disable()
                 ).authorizeHttpRequests(
                         authorize -> authorize
-                                .requestMatchers("login", "/error-403").permitAll()
+                                .requestMatchers("login", "/error-403", "/error-404").permitAll()
                                 .requestMatchers("/js/**", "/css/**", "/images/**").permitAll()
                                 .requestMatchers("/account/**").hasRole("ADMIN")
                                 .requestMatchers("/medicine/**").hasAnyRole("ADMIN", "PHARMACY-STAFF")
@@ -55,6 +55,10 @@ public class SpringSecurity {
                 ).exceptionHandling(
                         httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
                                 .accessDeniedPage("/error-403")
+                                .defaultAuthenticationEntryPointFor(
+                                        (request, response, authException) -> response.sendRedirect("/error-404"),
+                                        new AntPathRequestMatcher("/**")
+                                )
                 );
         return http.build();
     }

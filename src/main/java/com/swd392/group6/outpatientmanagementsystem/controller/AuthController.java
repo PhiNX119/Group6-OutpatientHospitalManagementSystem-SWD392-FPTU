@@ -33,7 +33,7 @@ public class AuthController {
 
     /**
      * @author phinx
-     * @description redirect to home page for each actor
+     * @description redirect to login page
      */
     @GetMapping("/login")
     public String login(Model model) {
@@ -42,19 +42,10 @@ public class AuthController {
 
     /**
      * @author phinx
-     * @description redirect to home page for each actor
+     * @description redirect to home page
      */
     @GetMapping(value = {"/", "/home"})
     public String homePage(Model model) {
         return "home-page";
-    }
-
-    /**
-     * @author phinx
-     * @description show error 403 page
-     */
-    @GetMapping("/error-403")
-    public String showError403() {
-        return "error/403";
     }
 }

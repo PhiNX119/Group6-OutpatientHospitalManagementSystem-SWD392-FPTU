@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:insert="~{fragments/bootstrap.html :: bootstrapFragment}"></th:block>
+</head>
+<body>
+<header th:insert="~{fragments/navbar.html :: navbar}"></header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>404</h3>
+            <h5>This page does not exist.</h5>
+            <hr>
+            <a class="nav-link active" th:href="@{/home}">Go home</a>
+            <a class="nav-link active" th:href="@{/logout}">Logout</a>
+        </div>
+    </div>
+</div>
+</body>
