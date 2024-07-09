@@ -1,13 +1,19 @@
 package com.swd392.group6.outpatientmanagementsystem.config;
 
 import com.swd392.group6.outpatientmanagementsystem.model.dto.AccountDto;
+import com.swd392.group6.outpatientmanagementsystem.model.entity.Department;
 import com.swd392.group6.outpatientmanagementsystem.model.entity.Role;
+import com.swd392.group6.outpatientmanagementsystem.repository.DepartmentRepository;
 import com.swd392.group6.outpatientmanagementsystem.repository.RoleRepository;
 import com.swd392.group6.outpatientmanagementsystem.service.AccountService;
+import com.swd392.group6.outpatientmanagementsystem.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class DataInitializer {
@@ -16,11 +22,15 @@ public class DataInitializer {
 
     private final AccountService accountService;
 
+    private final DepartmentService departmentService;
+
     @Autowired
     public DataInitializer(RoleRepository roleRepository,
-                           AccountService accountService) {
+                           AccountService accountService,
+                           DepartmentService departmentService) {
         this.roleRepository = roleRepository;
         this.accountService = accountService;
+        this.departmentService = departmentService;
     }
 
     @PostConstruct
@@ -31,6 +41,7 @@ public class DataInitializer {
         createRoleAccount("ROLE_CASHIER_COUNTER_STAFF", "cashier", "123");
         createRoleAccount("ROLE_RECEPTION_COUNTER_STAFF", "reception", "123");
         createRoleAccount("ROLE_PHARMACY_STAFF", "pharmacy", "123");
+        createDepartments();
     }
 
     private void createRoles() {
@@ -58,6 +69,22 @@ public class DataInitializer {
 
         if (accountService.findAccountByUsername(accountDto.getUsername()) == null) {
             accountService.saveAccountWithRole(accountDto, roleName);
+        }
+    }
+
+    private void createDepartments() {
+        List<Department> departments = Arrays.asList(
+                new Department(null, "Cardiology", true, null),
+                new Department(null, "Neurology", true, null),
+                new Department(null, "Pediatrics", true, null),
+                new Department(null, "Oncology", true, null),
+                new Department(null, "Orthopedics", true, null)
+        );
+
+        for (Department department : departments) {
+            if (departmentService.findDepartmentByName(department.getName()) == null) {
+                departmentService.addNewDepartment(department);
+            }
         }
     }
 }

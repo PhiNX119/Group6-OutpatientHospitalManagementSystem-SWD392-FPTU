@@ -52,7 +52,7 @@ public class MedicineController {
 
     /**
      * @author phinx
-     * @description redirect to medicine list page
+     * @description redirect to add medicine page
      */
     @GetMapping("/add")
     public String addNewMedicine(Model model) {
@@ -63,11 +63,11 @@ public class MedicineController {
     }
 
     /**
-     * @author tiennq
-     * @description
+     * @author phinx
+     * @description add new medicine
      */
     @PostMapping("/add")
-    public String addNewCar(@Valid @ModelAttribute("medicineDto") MedicineDto medicineDto,
+    public String addNewMedicine(@Valid @ModelAttribute("medicineDto") MedicineDto medicineDto,
                             BindingResult result,
                             Model model) {
         if (result.hasErrors()) {
