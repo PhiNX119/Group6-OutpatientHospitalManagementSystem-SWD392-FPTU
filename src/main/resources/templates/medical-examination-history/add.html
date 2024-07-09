@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:insert="~{fragments/bootstrap.html :: bootstrapFragment}"></th:block>
+</head>
+<body>
+<header th:insert="~{fragments/navbar.html :: navbar}"></header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Add new Medical Examination History</h2>
+            <hr>
+            <form method="post" th:action="@{/medical-examination-history/add}" th:object="${medicalExaminationHistoryDto}" role="form">
+                <div class="form-group">
+                    <label for="examinationDescription">Examination Description</label>
+                    <input type="text" class="form-control" id="examinationDescription" th:field="*{description}" placeholder="Examination Description">
+                    <p th:errors="*{description}" class="text-danger"
+                       th:if="${#fields.hasErrors('description')}"></p>
+                </div>
+                <div class="form-group">
+                    <label for="patientSelection">Patient</label>
+                    <select id="patientSelection" required>
+                        <option value="" disabled selected>Select a patient</option>
+                        <option th:each="patient : ${patientList}"
+                                th:value="${patient.id}"
+                                th:text="${patient.id}. ${patient.name}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="medicalRecordSelection">Medical Record</label>
+                    <select id="medicalRecordSelection" required>
+                        <option value="" disabled selected>Select a patient</option>
+                        <option th:each="mr : ${medicalRecordList}"
+                                th:value="${mr.id}"
+                                th:text="${mr.id}">
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-secondary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
