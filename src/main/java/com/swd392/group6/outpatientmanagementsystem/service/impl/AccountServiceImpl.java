@@ -51,7 +51,7 @@ public class AccountServiceImpl implements AccountService {
         }
 
         Account account = new Account();
-        account.loadFromDto(accountDto);
+        account.loadFromDto(accountDto, role);
         account.setPassword(passwordEncoder.encode(accountDto.getPassword()));
         account.setRole(role);
 
@@ -91,8 +91,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void addNewAccount(AccountDto accountDto) {
+        Role role = roleRepository.findByName(accountDto.getRoleName());
+        if (role == null) {
+            role = checkRoleExist(accountDto.getRoleName());
+        }
+
         Account account = new Account();
-        account.loadFromDto(accountDto);
+        account.loadFromDto(accountDto, role);
         accountRepository.save(account);
     }
 }

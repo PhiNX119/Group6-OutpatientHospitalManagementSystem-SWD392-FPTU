@@ -19,8 +19,6 @@ import java.sql.Date;
 @Getter
 @Setter
 public class AccountDto implements Serializable {
-    int id;
-
     @NotBlank(message = "This field is required.")
     String username;
 
@@ -61,7 +59,11 @@ public class AccountDto implements Serializable {
         this.address = entity.getAddress();
         this.phoneNumber = entity.getPhoneNumber();
         this.roleName = entity.getRole().getName();
-        this.departmentName = entity.getDepartment().getName();
+        if (entity.getDepartment() != null) {
+            this.departmentName = entity.getDepartment().getName();
+        } else {
+            this.departmentName = "No Department";
+        }
         this.isActive = entity.isActive();
     }
 }

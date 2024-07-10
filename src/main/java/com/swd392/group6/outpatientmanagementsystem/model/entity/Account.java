@@ -66,9 +66,15 @@ public class Account implements Serializable {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private  Collection<MedicalExaminationHistory> medicalExaminationHistories;
 
-    public void loadFromDto(AccountDto dto) {
+    public void loadFromDto(AccountDto dto, Role role) {
         this.username = dto.getUsername();
         this.password = dto.getPassword();
+        this.name = dto.getName();
+        this.dateOfBirth = dto.getDateOfBirth();
+        this.gender = dto.isGender();
+        this.address = dto.getAddress();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.role = role;
         this.isActive = dto.isActive();
     }
 }
