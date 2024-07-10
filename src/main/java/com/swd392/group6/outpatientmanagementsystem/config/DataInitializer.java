@@ -7,8 +7,12 @@ import com.swd392.group6.outpatientmanagementsystem.model.entity.PatientInfo;
 import com.swd392.group6.outpatientmanagementsystem.model.entity.Role;
 import com.swd392.group6.outpatientmanagementsystem.repository.MedicalRecordRepository;
 import com.swd392.group6.outpatientmanagementsystem.repository.PatientInfoRepository;
+import com.swd392.group6.outpatientmanagementsystem.model.entity.Department;
+import com.swd392.group6.outpatientmanagementsystem.model.entity.Role;
+import com.swd392.group6.outpatientmanagementsystem.repository.DepartmentRepository;
 import com.swd392.group6.outpatientmanagementsystem.repository.RoleRepository;
 import com.swd392.group6.outpatientmanagementsystem.service.AccountService;
+import com.swd392.group6.outpatientmanagementsystem.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -23,6 +27,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class DataInitializer {
@@ -33,6 +39,8 @@ public class DataInitializer {
     private final PatientInfoRepository patientInfoRepository;
     private final MedicalRecordRepository medicalRecordRepository;
 
+    private final DepartmentService departmentService;
+
     @Autowired
     public DataInitializer(RoleRepository roleRepository,
                            AccountService accountService,
@@ -42,6 +50,10 @@ public class DataInitializer {
         this.accountService = accountService;
         this.patientInfoRepository = patientInfoRepository;
         this.medicalRecordRepository = medicalRecordRepository;
+                           DepartmentService departmentService) {
+        this.roleRepository = roleRepository;
+        this.accountService = accountService;
+        this.departmentService = departmentService;
     }
 
     @PostConstruct
@@ -55,6 +67,7 @@ public class DataInitializer {
 
         createPatientsInfo();
         createMedicalRecords();
+        createDepartments();
     }
 
     private void createRoles() {
@@ -119,6 +132,19 @@ public class DataInitializer {
             medicalRecord.setAccount(account);
 
             medicalRecordRepository.save(medicalRecord);
+    private void createDepartments() {
+        List<Department> departments = Arrays.asList(
+                new Department(null, "Cardiology", true, null),
+                new Department(null, "Neurology", true, null),
+                new Department(null, "Pediatrics", true, null),
+                new Department(null, "Oncology", true, null),
+                new Department(null, "Orthopedics", true, null)
+        );
+
+        for (Department department : departments) {
+            if (departmentService.findDepartmentByName(department.getName()) == null) {
+                departmentService.addNewDepartment(department);
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.swd392.group6.outpatientmanagementsystem.model.entity;
 
+import com.swd392.group6.outpatientmanagementsystem.model.dto.AccountDto;
+import com.swd392.group6.outpatientmanagementsystem.model.dto.DepartmentDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,4 +33,9 @@ public class Department implements Serializable {
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private Collection<Account> accounts;
+
+    public void loadFromDto(DepartmentDto dto) {
+        this.name = dto.getName();
+        this.isActive = dto.isActive();
+    }
 }
