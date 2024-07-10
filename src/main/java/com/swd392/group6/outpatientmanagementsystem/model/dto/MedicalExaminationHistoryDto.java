@@ -34,8 +34,12 @@ public class MedicalExaminationHistoryDto implements Serializable {
         this.id = entity.getId();
         this.createdDate = entity.getCreateDate() + "";
         this.description = entity.getExaminationDescription();
-        this.staffId = entity.getAccount().getId();
-        this.patientId = entity.getPatientInfo().getId();
+        if (entity.getAccount() != null) {
+            this.staffId = entity.getAccount().getId();
+        }
+        if (entity.getPatientInfo() != null) {
+            this.patientId = entity.getPatientInfo().getId();
+        }
         if (entity.getMedicalRecord() != null) {
             this.medicalRecordId = entity.getMedicalRecord().getId();
         }
