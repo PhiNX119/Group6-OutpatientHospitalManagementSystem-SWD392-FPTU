@@ -11,9 +11,17 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div th:if="${addFailed}">
-                <div class="alert alert-danger">Fail to add medical history examination.</div>
+            <div th:if="${response}">
+                <div class="alert alert-primary alert-dismissible fade show" role="alert" th:text="${response}">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             </div>
+
+            <div th:if="${errors}">
+                <div th:each="error : ${errors}" th:text="${error}" class="alert alert-danger" role="alert"></div>
+            </div>
+
+
             <h2>Add new Medical Examination History</h2>
             <hr>
             <form method="post" th:action="@{/medical-examination-history/add}" th:object="${medicalExaminationHistoryDto}" role="form">
@@ -24,42 +32,18 @@
                        th:if="${#fields.hasErrors('description')}"></p>
                 </div>
                 <div class="form-group">
-                    <label for="patientSelection">Patient</label>
-                    <select onchange="handleSelect(event)" id="patientSelection"   required>
-                        <option value="" disabled selected>Select a patient</option>
-                        <option th:each="patient : ${patientList}"
-                                th:value="${patient.id}"
-                                th:text="${patient.id} + '. ' + ${patient.name}">
-                        </option>
-                    </select>
-                    <div>
-                        <input hidden type="text" class="form-control" th:field="*{patientId}">
-                        <p th:errors="*{patientId}" class="text-danger"
-                           th:if="${#fields.hasErrors('patientId')}"></p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="medicalRecordSelection">Medical Record</label>
-                    <select onchange="handleSelect(event)" id="medicalRecordSelection"  required>
-                        <option value="" disabled selected>Select a patient</option>
-                        <option th:each="mr : ${medicalRecordList}"
-                                th:value="${mr.id}"
-                                th:text="${mr.id}">
-                        </option>
-                    </select>
-                    <div>
-                        <input hidden type="text" class="form-control" th:field="*{medicalRecordId}">
-                        <p th:errors="*{medicalRecordId}" class="text-danger"
-                           th:if="${#fields.hasErrors('medicalRecordId')}"></p>
-                    </div>
+                    <label for="patientInfoId">Patient ID </label>
+                    <input type="number" class="form-control" id="patientInfoId" th:field="*{patientId}" placeholder="Patient ID">
+                    <p th:errors="*{patientId}" class="text-danger"
+                       th:if="${#fields.hasErrors('patientId')}"></p>
                 </div>
                 <div class="form-group">
                     <label for="staffId">Staff Id</label>
-                    <input id="staffId" type="text" th:field="*{staffId}" value="1">
+                    <input id="staffId" type="text" th:field="*{staffId}" readonly>
                 </div>
                 <div class="form-group">
                     <label for="createdDate">Created Date</label>
-                    <input id="createdDate" type="text" th:field="*{createdDate}">
+                    <input id="createdDate" type="text" th:field="*{createdDate}" readonly>
                 </div>
 
                 <button type="submit" class="btn btn-secondary">Submit</button>

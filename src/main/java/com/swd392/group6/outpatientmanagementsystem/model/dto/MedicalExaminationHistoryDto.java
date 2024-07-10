@@ -19,10 +19,8 @@ import java.util.Date;
 @Getter
 @Setter
 public class MedicalExaminationHistoryDto implements Serializable {
-    @NotNull(message = "This field is required.")
     int id;
     String createdDate;
-    @NotBlank(message = "This field is required.")
     String description;
     int staffId;
     int patientId;
@@ -38,6 +36,9 @@ public class MedicalExaminationHistoryDto implements Serializable {
         this.description = entity.getExaminationDescription();
         this.staffId = entity.getAccount().getId();
         this.patientId = entity.getPatientInfo().getId();
-        this.medicalRecordId = entity.getMedicalRecord().getId();
+        if (entity.getMedicalRecord() != null) {
+            this.medicalRecordId = entity.getMedicalRecord().getId();
+        }
+
     }
 }
