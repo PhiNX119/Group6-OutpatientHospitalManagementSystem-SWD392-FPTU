@@ -8,64 +8,50 @@ import com.swd392.group6.outpatientmanagementsystem.repository.MedicalRecordRepo
 import com.swd392.group6.outpatientmanagementsystem.repository.PatientInfoRepository;
 import com.swd392.group6.outpatientmanagementsystem.service.AccountService;
 import com.swd392.group6.outpatientmanagementsystem.service.MedicalExaminationHistoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class MedicalExaminationHistoryServiceImpl implements MedicalExaminationHistoryService {
-
-    private final MedicalExaminationHistoryRepository repo;
-    private final PatientInfoRepository patientRepo;
+    private final MedicalExaminationHistoryRepository medicalExaminationHistoryRepository;
+    private final PatientInfoRepository patientInfoRepository;
     private final AccountRepository accountRepository;
-    private final AccountService accountService;
 
-    public MedicalExaminationHistoryServiceImpl(MedicalExaminationHistoryRepository repo,
-                                                PatientInfoRepository patientRepo,
-                                                AccountRepository accountRepository,
-                                                AccountService accountService) {
-        this.repo = repo;
-        this.patientRepo = patientRepo;
+    @Autowired
+    public MedicalExaminationHistoryServiceImpl(MedicalExaminationHistoryRepository medicalExaminationHistoryRepository,
+                                                PatientInfoRepository patientInfoRepository,
+                                                AccountRepository accountRepository) {
+        this.medicalExaminationHistoryRepository = medicalExaminationHistoryRepository;
+        this.patientInfoRepository = patientInfoRepository;
         this.accountRepository = accountRepository;
-        this.accountService = accountService;
-    }
-
-
-    @Override
-    public List<MedicalExaminationHistory> GetAll() {
-        return repo.findAll();
     }
 
     @Override
-    public List<PatientInfo> GetAllPatients() {
-        return patientRepo.findAll();
+    public List<MedicalExaminationHistory> getMedicalExaminationHistoryList() {
+        return medicalExaminationHistoryRepository.findAll();
     }
 
     @Override
-    public boolean AddNewMedicalExaminationHistory(MedicalExaminationHistoryDto mehDto) {
+    public boolean addNewMedicalExaminationHistory(MedicalExaminationHistoryDto medicalExaminationHistoryDto) {
         try {
-            MedicalExaminationHistory meh = new MedicalExaminationHistory();
-            meh.LoadFromDto(mehDto);
+            MedicalExaminationHistory medicalExaminationHistory = new MedicalExaminationHistory();
+            medicalExaminationHistory.LoadFromDto(medicalExaminationHistoryDto);
 
-            Account account = accountRepository.findById(mehDto.getStaffId())
+            Account account = accountRepository.findById(medicalExaminationHistoryDto.getStaffId())
                     .orElseThrow(() -> new RuntimeException("Account not found"));
-            meh.setAccount(account);
+            medicalExaminationHistory.setAccount(account);
 
-            PatientInfo patientInfo = patientRepo.findById(mehDto.getPatientId())
+            PatientInfo patientInfo = patientInfoRepository.findById(medicalExaminationHistoryDto.getPatientId())
                     .orElseThrow(() -> new RuntimeException("Patient not found"));
-            meh.setPatientInfo(patientInfo);
+            medicalExaminationHistory.setPatientInfo(patientInfo);
 
-            repo.save(meh);
+            medicalExaminationHistoryRepository.save(medicalExaminationHistory);
             return true;
 
         } catch (Exception ex) {
             return false;
         }
-    }
-
-
-    @Override
-    public CustomUserDetails GetLoggedInAccount() {
-        return accountService.getUserDetail();
     }
 }

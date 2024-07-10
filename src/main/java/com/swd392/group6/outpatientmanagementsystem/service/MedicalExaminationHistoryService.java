@@ -8,9 +8,6 @@ import java.util.List;
 
 @Service
 public interface MedicalExaminationHistoryService {
-    List<MedicalExaminationHistory> GetAll();
-    List<PatientInfo> GetAllPatients();
-    boolean AddNewMedicalExaminationHistory(MedicalExaminationHistoryDto mehDto);
-
-    CustomUserDetails GetLoggedInAccount();
+    List<MedicalExaminationHistory> getMedicalExaminationHistoryList();
+    boolean addNewMedicalExaminationHistory(MedicalExaminationHistoryDto medicalExaminationHistoryDto);
 }
