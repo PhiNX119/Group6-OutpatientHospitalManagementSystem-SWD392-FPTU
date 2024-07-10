@@ -1,5 +1,6 @@
 package com.swd392.group6.outpatientmanagementsystem.model.entity;
 
+import com.swd392.group6.outpatientmanagementsystem.model.dto.PatientInfoDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Nationalized;
@@ -42,4 +43,12 @@ public class PatientInfo implements Serializable{
 
     @OneToMany(mappedBy = "patientInfo", cascade = CascadeType.ALL)
     private Collection<MedicalExaminationHistory> medicalExaminationHistories;
+
+    public void loadFromDto(PatientInfoDto dto) {
+        this.name = dto.getName();
+        this.dateOfBirth = dto.getDateOfBirth();
+        this.gender = dto.getGender();
+        this.address = dto.getAddress();
+        this.phoneNumber = dto.getPhoneNumber();
+    }
 }

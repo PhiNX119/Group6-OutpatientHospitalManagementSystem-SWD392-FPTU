@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:insert="~{fragments/bootstrap.html :: bootstrapFragment}"></th:block>
+</head>
+<body>
+<header th:insert="~{fragments/navbar.html :: navbar}"></header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Patient Information Detail</h2>
+            <hr>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${patientInfo.name}"></h5>
+                    <p class="card-text"><strong>Address:</strong> <span th:text="${patientInfo.address}"></span></p>
+                    <p class="card-text"><strong>Date of birth:</strong> <span th:text="${patientInfo.dateOfBirth}"></span></p>
+                    <p class="card-text"><strong>Phone number:</strong> <span th:text="${patientInfo.phoneNumber}"></span></p>
+                    <p class="card-text"><strong>Gender:</strong> <span th:text="${patientInfo.isGender() ? 'Male' : 'Female'}"></span></p>
+                    <a th:href="@{/patientInfo/list}" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
