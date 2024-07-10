@@ -11,6 +11,9 @@
     <div class="row">
         <div class="col-md-12">
             <h2>Add new Patient</h2>
+            <div th:if="${param.addSuccess}">
+                <div class="alert alert-success">Add patient information successfully.</div>
+            </div>
             <hr>
             <form method="post" th:action="@{/patientInfo/add}" th:object="${patientInfoDto}" role="form">
                 <div class="form-group">
@@ -47,6 +50,8 @@
                 </div>
                 <button type="submit" class="btn btn-secondary">Submit</button>
             </form>
+            <hr>
+            <a th:href="@{/patientInfo/list}" class="btn btn-secondary">Back to List</a>
         </div>
     </div>
 </div>

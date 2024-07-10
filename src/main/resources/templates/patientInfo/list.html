@@ -13,9 +13,6 @@
             <h2>Patient Information List</h2>
             <hr>
             <button type="button" class="btn btn-secondary mb-2" th:onclick="|window.location='@{/patientInfo/add}'|">Add new Patient Information</button>
-            <div th:if="${param.addSuccess}">
-                <div class="alert alert-success">Add patient information successfully.</div>
-            </div>
             <hr>
             <table id="patientInfo-list" class="table table-striped" style="width:100%">
                 <thead>

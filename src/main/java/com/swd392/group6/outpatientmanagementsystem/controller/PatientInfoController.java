@@ -55,7 +55,7 @@ public class PatientInfoController {
             return "patientInfo/add";
         } else {
             patientInfoService.addNewPatientInfo(patientInfoDto);
-            return "redirect:/patientInfo/list";
+            return "redirect:/patientInfo/add?addSuccess=true";
         }
     }
 }
