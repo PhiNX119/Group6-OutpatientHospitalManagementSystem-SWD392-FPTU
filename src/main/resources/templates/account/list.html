@@ -24,17 +24,19 @@
                     <th scope="col">Name</th>
                     <th scope="col">Date of Birth</th>
                     <th scope="col">Gender</th>
-                    <th scope="col">Address</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Department</th>
                     <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="account : ${accountList}">
                     <td th:text="${account.id}"></td>
-                    <td th:text="${account.username}"></td>
+                    <td th:text="${account.name}"></td>
                     <td th:text="${account.dateOfBirth}"></td>
                     <td th:text="${account.gender? 'Male' : 'Female'}"></td>
-                    <td th:text="${account.address}"></td>
+                    <td th:text="${account.role.name}"></td>
+                    <td th:text="${account.department != null ? account.department.name : 'No Department'}"></td>
                     <td>
                         <a th:href="@{/account/detail(id=${account.id})}" class="btn btn-secondary btn-sm">Details</a>
                     </td>

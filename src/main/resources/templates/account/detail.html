@@ -20,10 +20,7 @@
                     <p class="card-text"><strong>Address:</strong> <span th:text="${accountDto.address}"></span></p>
                     <p class="card-text"><strong>Phone Number:</strong> <span th:text="${accountDto.phoneNumber}"></span></p>
                     <p class="card-text"><strong>Role:</strong> <span th:text="${accountDto.roleName}"></span></p>
-                    <p class="card-text">
-                        <strong>Department:</strong>
-                        <span th:text="${accountDto.departmentName != null ? accountDto.departmentName : 'No Department'}"></span>
-                    </p>
+                    <p class="card-text"><strong>Department:</strong> <span th:text="${accountDto.departmentName != null ? accountDto.departmentName : 'No Department'}"></span></p>
                     <p class="card-text"><strong>Active:</strong> <span th:text="${accountDto.isActive ? 'Yes' : 'No'}"></span></p>
                     <a th:href="@{/account/list}" class="btn btn-secondary">Back to List</a>
                 </div>

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Service
 public interface DepartmentService {
-    Department findDepartmentByName(String name);
-    List<Department> findAllDepartments();
+    Department getDepartmentByName(String name);
+    List<Department> getDepartmentList();
     void addNewDepartment(Department department);
 }

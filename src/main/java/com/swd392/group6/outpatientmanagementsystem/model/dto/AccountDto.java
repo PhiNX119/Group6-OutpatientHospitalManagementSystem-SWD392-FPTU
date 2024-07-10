@@ -3,9 +3,7 @@ package com.swd392.group6.outpatientmanagementsystem.model.dto;
 import com.swd392.group6.outpatientmanagementsystem.model.entity.Account;
 import com.swd392.group6.outpatientmanagementsystem.model.entity.Department;
 import com.swd392.group6.outpatientmanagementsystem.model.entity.Role;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -19,36 +17,37 @@ import java.sql.Date;
 @Getter
 @Setter
 public class AccountDto implements Serializable {
-    @NotBlank(message = "This field is required.")
-    String username;
+    @NotBlank(message = "Username is mandatory")
+    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
+    private String username;
 
-    @NotBlank(message = "This field is required.")
-    String password;
+    @NotBlank(message = "Password is mandatory")
+    //@Size(min = 8, message = "Password must be at least 8 characters")
+    private String password;
 
-    @NotBlank(message = "This field is required.")
-    String name;
+    @NotBlank(message = "Name is mandatory")
+    private String name;
 
-    @NotNull(message = "This field is required.")
-            @PastOrPresent(message = "This field must from past or present")
-    Date dateOfBirth;
+    @NotNull(message = "Date of birth is mandatory")
+    @Past(message = "Date of birth must be in the past")
+    private Date dateOfBirth;
 
+    private boolean gender;
 
-    boolean gender;
+    @NotBlank(message = "Address is mandatory")
+    private String address;
 
-    @NotBlank(message = "This field is required.")
-    String address;
+    @NotBlank(message = "Phone number is mandatory")
+    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Phone number is invalid")
+    private String phoneNumber;
 
-    @NotBlank(message = "This field is required.")
-    String phoneNumber;
+    @NotBlank(message = "Role name is mandatory")
+    private String roleName;
 
-    @NotBlank(message = "This field is required.")
-    String roleName;
+    @NotBlank(message = "Department name is mandatory")
+    private String departmentName;
 
-    @NotBlank(message = "This field is required.")
-    String departmentName;
-
-
-    boolean isActive;
+    private boolean isActive;
 
     public void loadFromEntity(Account entity) {
         this.username = entity.getUsername();

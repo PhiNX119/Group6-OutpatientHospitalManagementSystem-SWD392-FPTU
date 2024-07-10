@@ -15,13 +15,15 @@ import java.util.List;
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
+    private final DepartmentRepository departmentRepository;
     private final PasswordEncoder passwordEncoder;
 
     public AccountServiceImpl(AccountRepository accountRepository,
-                           RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder) {
+                              RoleRepository roleRepository, DepartmentRepository departmentRepository,
+                              PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
         this.roleRepository = roleRepository;
+        this.departmentRepository = departmentRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -41,40 +43,16 @@ public class AccountServiceImpl implements AccountService {
 
     /**
      * @author phinx
-     * @description insert new account
-     */
-    @Override
-    public void saveAccountWithRole(AccountDto accountDto, String roleName) {
-        Role role = roleRepository.findByName(roleName);
-        if (role == null) {
-            role = checkRoleExist(roleName);
-        }
-
-        Account account = new Account();
-        account.loadFromDto(accountDto, role);
-        account.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-        account.setRole(role);
-
-        accountRepository.save(account);
-    }
-
-    /**
-     * @author phinx
-     * @description check role existed or not
-     */
-    private Role checkRoleExist(String roleName) {
-        Role role = new Role();
-        role.setName(roleName);
-        return roleRepository.save(role);
-    }
-
-    /**
-     * @author phinx
      * @description get account by username
      */
     @Override
-    public Account findAccountByUsername(String username) {
+    public Account getAccountByUsername(String username) {
         return accountRepository.findByUsername(username);
+    }
+
+    @Override
+    public Account getAccountById(int id) {
+        return accountRepository.findById(id);
     }
 
     /**
@@ -82,31 +60,22 @@ public class AccountServiceImpl implements AccountService {
      * @description get account list
      */
     @Override
-    public List<Account> findAll() {
+    public List<Account> getAccountList() {
         return accountRepository.findAll();
-    }
-
-    @Override
-    public Account findAccountById(int id) { return accountRepository.findById(id); }
-
-    @Override
-    public void checkIfExist(String username) {
-        Account account = findAccountByUsername(username);
-        if (account != null) {
-            throw new IllegalArgumentException("Username already exists");
-        }
     }
 
     @Override
     public void addNewAccount(AccountDto accountDto) {
         Role role = roleRepository.findByName(accountDto.getRoleName());
-        if (role == null) {
-            role = checkRoleExist(accountDto.getRoleName());
-        }
-        checkIfExist(accountDto.getUsername());
+
+        Department department = departmentRepository.findByName(accountDto.getDepartmentName());
 
         Account account = new Account();
-        account.loadFromDto(accountDto, role);
+        account.loadFromDto(accountDto);
+        account.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+        account.setRole(role);
+        account.setDepartment(department);
+
         accountRepository.save(account);
     }
 }

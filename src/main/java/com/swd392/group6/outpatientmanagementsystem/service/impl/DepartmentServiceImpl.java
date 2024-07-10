@@ -16,12 +16,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department findDepartmentByName(String name) {
+    public Department getDepartmentByName(String name) {
         return departmentRepository.findByName(name);
     }
 
     @Override
-    public List<Department> findAllDepartments() {
+    public List<Department> getDepartmentList() {
         return departmentRepository.findAll();
     }
 

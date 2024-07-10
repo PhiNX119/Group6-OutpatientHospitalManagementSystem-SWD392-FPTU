@@ -41,7 +41,7 @@ public class MedicineServiceImpl implements MedicineService {
      * @description get medicine list
      */
     @Override
-    public List<Medicine> findAll() {
+    public List<Medicine> getMedicineList() {
         return medicineRepository.findAll();
     }
 

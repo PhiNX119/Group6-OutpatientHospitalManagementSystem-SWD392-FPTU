@@ -33,32 +33,28 @@ public class SpringSecurity {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(
-                        csrf -> csrf.disable()
-                ).authorizeHttpRequests(
-                        authorize -> authorize
-                                .requestMatchers("login", "/error-403", "/error-404").permitAll()
-                                .requestMatchers("/js/**", "/css/**", "/images/**").permitAll()
-                                .requestMatchers("/account/**").hasRole("ADMIN")
-                                .requestMatchers("/medicine/**").hasAnyRole("ADMIN", "PHARMACY-STAFF")
-                                .anyRequest().authenticated()
-                ).formLogin(
-                        form -> form
-                                .loginPage("/login")
-                                .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/home", true)
-                ).logout(
-                        logout -> logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                                //.deleteCookies("JSESSIONID")
-                                .logoutSuccessHandler(logoutSuccessHandler())
-                ).exceptionHandling(
-                        httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
-                                .accessDeniedPage("/error-403")
-                                .defaultAuthenticationEntryPointFor(
-                                        (request, response, authException) -> response.sendRedirect("/error-404"),
-                                        new AntPathRequestMatcher("/**")
-                                )
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/login", "/error-403", "/error-404").permitAll()
+                        .requestMatchers("/js/**", "/css/**", "/images/**").permitAll()
+                        .requestMatchers("/account/**").hasRole("ADMIN")
+                        .requestMatchers("/medicine/**").hasAnyRole("ADMIN", "PHARMACY-STAFF")
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/home", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessHandler(logoutSuccessHandler())
+                        .permitAll()
+                )
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedPage("/error-403")
+                        .authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/login"))
                 );
         return http.build();
     }

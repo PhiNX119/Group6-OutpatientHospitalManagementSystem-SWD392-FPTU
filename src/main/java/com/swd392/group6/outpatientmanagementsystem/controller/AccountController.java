@@ -26,18 +26,21 @@ import java.util.List;
 @RequestMapping("/account")
 public class AccountController {
     private final AccountService accountService;
-    private final DepartmentService departmentService;
     private final RoleService roleService;
+    private final DepartmentService departmentService;
 
     @Autowired
-    public AccountController(AccountService accountService, DepartmentService departmentService, RoleService roleService) { this.accountService = accountService;
-        this.departmentService = departmentService;
+    public AccountController(AccountService accountService,
+                             RoleService roleService,
+                             DepartmentService departmentService) {
+        this.accountService = accountService;
         this.roleService = roleService;
+        this.departmentService = departmentService;
     }
 
     @GetMapping("/list")
     public String ShowAccountList(Model model) {
-        List<Account> accountList = accountService.findAll();
+        List<Account> accountList = accountService.getAccountList();
         model.addAttribute("accountList", accountList);
 
         return "account/list";
@@ -45,7 +48,7 @@ public class AccountController {
 
     @GetMapping("/detail")
     public String viewAccountDetail(@RequestParam("id") Integer accountId, Model model) {
-        Account account = accountService.findAccountById(accountId);
+        Account account = accountService.getAccountById(accountId);
         AccountDto accountDto = new AccountDto();
         accountDto.loadFromEntity(account);
         model.addAttribute("accountDto", accountDto);
@@ -56,11 +59,13 @@ public class AccountController {
     @GetMapping("/add")
     public String addNewAccount(Model model) {
         AccountDto accountDto = new AccountDto();
-        List<Department> departmentList = departmentService.findAllDepartments();
-        List<Role> roleList = roleService.getRoles();
-        model.addAttribute("roleList", roleList);
-        model.addAttribute("departmentList", departmentList);
         model.addAttribute("accountDto", accountDto);
+
+        List<Role> roleList = roleService.getRoleList();
+        model.addAttribute("roleList", roleList);
+
+        List<Department> departmentList = departmentService.getDepartmentList();
+        model.addAttribute("departmentList", departmentList);
 
         return "account/add";
     }
@@ -69,13 +74,25 @@ public class AccountController {
     public String addNewAccount(@Valid @ModelAttribute("accountDto") AccountDto accountDto,
                             BindingResult result,
                             Model model) {
+        model.addAttribute("accountDto", accountDto);
+
+        List<Role> roleList = roleService.getRoleList();
+        model.addAttribute("roleList", roleList);
+
+        List<Department> departmentList = departmentService.getDepartmentList();
+        model.addAttribute("departmentList", departmentList);
+
         if (result.hasErrors()) {
-            model.addAttribute("accountDto", accountDto);
             return "account/add";
         } else {
-            accountDto.setActive(true);
-            accountService.addNewAccount(accountDto);
-            return "redirect:/account/list?addSuccess";
+            if (accountService.getAccountByUsername(accountDto.getUsername()) == null){
+                accountDto.setActive(true);
+                accountService.addNewAccount(accountDto);
+                return "redirect:/account/list?addSuccess";
+            } else {
+                model.addAttribute("errorMessage", "Account already exists.");
+                return "account/add";
+            }
         }
     }
 }
