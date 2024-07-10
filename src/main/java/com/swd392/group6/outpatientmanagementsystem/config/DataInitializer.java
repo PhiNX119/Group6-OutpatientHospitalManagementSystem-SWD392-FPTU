@@ -45,14 +45,12 @@ public class DataInitializer {
     public DataInitializer(RoleRepository roleRepository,
                            AccountService accountService,
                            PatientInfoRepository patientInfoRepository,
-                           MedicalRecordRepository medicalRecordRepository) {
+                           MedicalRecordRepository medicalRecordRepository,
+                           DepartmentService departmentService) {
         this.roleRepository = roleRepository;
         this.accountService = accountService;
         this.patientInfoRepository = patientInfoRepository;
         this.medicalRecordRepository = medicalRecordRepository;
-                           DepartmentService departmentService) {
-        this.roleRepository = roleRepository;
-        this.accountService = accountService;
         this.departmentService = departmentService;
     }
 
@@ -132,6 +130,8 @@ public class DataInitializer {
             medicalRecord.setAccount(account);
 
             medicalRecordRepository.save(medicalRecord);
+        }
+    }
     private void createDepartments() {
         List<Department> departments = Arrays.asList(
                 new Department(null, "Cardiology", true, null),
