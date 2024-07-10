@@ -10,11 +10,13 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h3>403</h3>
-            <h5>You do not have permission.</h5>
-            <hr>
-            <a class="nav-link active" th:href="@{/home}">Go home</a>
-            <a class="nav-link active" th:href="@{/logout}">Logout</a>
+            <div class="jumbotron">
+                <h1 class="display-4">403</h1>
+                <p class="lead">You do not have permission.</p>
+                <hr class="my-4">
+                <a class="btn btn-secondary btn-lg" th:href="@{/home}" role="button">Go Home</a>
+                <a class="btn btn-secondary btn-lg" th:href="@{/logout}" role="button">Logout</a>
+            </div>
         </div>
     </div>
 </div>

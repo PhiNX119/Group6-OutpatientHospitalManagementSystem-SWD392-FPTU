@@ -5,6 +5,7 @@ import com.swd392.group6.outpatientmanagementsystem.repository.AccountRepository
 import com.swd392.group6.outpatientmanagementsystem.repository.MedicalRecordRepository;
 import com.swd392.group6.outpatientmanagementsystem.repository.PatientInfoRepository;
 import com.swd392.group6.outpatientmanagementsystem.service.MedicalExaminationHistoryValidationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,20 +13,23 @@ import java.util.List;
 
 @Service
 public class MedicalExaminationHistoryValidationServiceImpl implements MedicalExaminationHistoryValidationService {
-    private final MedicalRecordRepository mrRepo;
-    private final AccountRepository accRepo;
-    private final PatientInfoRepository piRepo;
-    public MedicalExaminationHistoryValidationServiceImpl(MedicalRecordRepository mrRepo,
-                                                          AccountRepository accRepo,
-                                                          PatientInfoRepository piRepo) {
-        this.accRepo = accRepo;
-        this.mrRepo = mrRepo;
-        this.piRepo = piRepo;
+    private final AccountRepository accountRepository;
+    private final PatientInfoRepository patientInfoRepository;
+    private final MedicalRecordRepository medicalRecordRepository;
+
+    @Autowired
+    public MedicalExaminationHistoryValidationServiceImpl(AccountRepository accountRepository,
+                                                          PatientInfoRepository patientInfoRepository,
+                                                          MedicalRecordRepository medicalRecordRepository) {
+        this.accountRepository = accountRepository;
+        this.patientInfoRepository = patientInfoRepository;
+        this.medicalRecordRepository = medicalRecordRepository;
     }
+
     @Override
-    public String ValidateFields(MedicalExaminationHistoryDto medicalExaminationHistoryDto) {
+    public String validateFields(MedicalExaminationHistoryDto medicalExaminationHistoryDto) {
         List<String> errors = new ArrayList<>();
-        if (medicalExaminationHistoryDto.getStaffId() == 0 || accRepo.findById(medicalExaminationHistoryDto.getStaffId()).isEmpty()) {
+        if (medicalExaminationHistoryDto.getStaffId() == 0 || accountRepository.findById(medicalExaminationHistoryDto.getStaffId()).isEmpty()) {
             errors.add("Staff is not exist!");
         }
         if (medicalExaminationHistoryDto.getDescription().trim().isBlank()) {
@@ -34,7 +38,7 @@ public class MedicalExaminationHistoryValidationServiceImpl implements MedicalEx
         if (medicalExaminationHistoryDto.getCreatedDate().trim().isBlank()) {
             errors.add("Created date can not be blank!");
         }
-        if (medicalExaminationHistoryDto.getPatientId() == 0 || piRepo.findById(medicalExaminationHistoryDto.getPatientId()).isEmpty()) {
+        if (medicalExaminationHistoryDto.getPatientId() == 0 || patientInfoRepository.findById(medicalExaminationHistoryDto.getPatientId()).isEmpty()) {
             errors.add("Patient is not exist!");
         }
         StringBuilder result = new StringBuilder();

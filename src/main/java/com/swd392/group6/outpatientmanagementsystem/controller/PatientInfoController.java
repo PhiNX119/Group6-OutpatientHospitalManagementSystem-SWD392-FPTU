@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/patientInfo")
+@RequestMapping("/patient-info")
 public class PatientInfoController {
     private final PatientInfoService patientInfoService;
 
@@ -25,9 +25,9 @@ public class PatientInfoController {
 
     @GetMapping("/list")
     public String showPatientInfoList(Model model) {
-        List<PatientInfo> patientInfoList = patientInfoService.findAll();
+        List<PatientInfo> patientInfoList = patientInfoService.getPatientInfoList();
         model.addAttribute("patientInfoList", patientInfoList);
-        return "patientInfo/list";
+        return "patient-info/list";
     }
 
     @GetMapping("/detail")
@@ -36,14 +36,14 @@ public class PatientInfoController {
         PatientInfoDto patientInfoDto = new PatientInfoDto();
         patientInfoDto.loadFromEntity(patientInfo);
         model.addAttribute("patientInfo", patientInfo);
-        return "patientInfo/detail";
+        return "patient-info/detail";
     }
 
     @GetMapping("/add")
     public String getAddNewPatientInfo(Model model) {
         PatientInfoDto patientInfoDto = new PatientInfoDto();
         model.addAttribute("patientInfoDto", patientInfoDto);
-        return "patientInfo/add";
+        return "patient-info/add";
     }
 
     @PostMapping("/add")
@@ -52,10 +52,10 @@ public class PatientInfoController {
                                     Model model) {
         if (result.hasErrors()) {
             model.addAttribute("patientInfoDto", patientInfoDto);
-            return "patientInfo/add";
+            return "patient-info/add";
         } else {
             patientInfoService.addNewPatientInfo(patientInfoDto);
-            return "redirect:/patientInfo/add?addSuccess=true";
+            return "redirect:/patient-info/add?addSuccess=true";
         }
     }
 }

@@ -43,6 +43,5 @@ public class MedicalExaminationHistoryDto implements Serializable {
         if (entity.getMedicalRecord() != null) {
             this.medicalRecordId = entity.getMedicalRecord().getId();
         }
-
     }
 }

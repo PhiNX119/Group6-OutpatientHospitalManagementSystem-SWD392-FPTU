@@ -21,7 +21,6 @@
                 <div th:each="error : ${errors}" th:text="${error}" class="alert alert-danger" role="alert"></div>
             </div>
 
-
             <h2>Add new Medical Examination History</h2>
             <hr>
             <form method="post" th:action="@{/medical-examination-history/add}" th:object="${medicalExaminationHistoryDto}" role="form">
@@ -39,11 +38,15 @@
                 </div>
                 <div class="form-group">
                     <label for="staffId">Staff Id</label>
-                    <input id="staffId" type="text" th:field="*{staffId}" readonly>
+                    <input type="text" class="form-control" id="staffId" th:field="*{staffId}" readonly>
+                    <p th:errors="*{staffId}" class="text-danger"
+                       th:if="${#fields.hasErrors('staffId')}"></p>
                 </div>
                 <div class="form-group">
                     <label for="createdDate">Created Date</label>
-                    <input id="createdDate" type="text" th:field="*{createdDate}" readonly>
+                    <input type="text" class="form-control" id="createdDate" th:field="*{createdDate}" readonly>
+                    <p th:errors="*{createdDate}" class="text-danger"
+                       th:if="${#fields.hasErrors('createdDate')}"></p>
                 </div>
 
                 <button type="submit" class="btn btn-secondary">Submit</button>
@@ -75,7 +78,6 @@
         patientSlt.value = patientSlt.parentElement.querySelector('input').value;
         medicalRecordSlt.value = medicalRecordSlt.parentElement.querySelector('input').value;
     }
-
 
     setCurrentDate('createdDate');
     PageReload();

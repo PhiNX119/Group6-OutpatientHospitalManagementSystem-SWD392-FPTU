@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PatientInfoService {
     PatientInfo getPatientInfoById(Integer id);
-    List<PatientInfo> findAll();
+    List<PatientInfo> getPatientInfoList();
     PatientInfo addNewPatientInfo(PatientInfoDto patientInfo);
     PatientInfo updatePatientInfo(PatientInfoDto patientInfo);
     boolean deletePatientInfo(Integer id);

@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <h2>Patient Information List</h2>
             <hr>
-            <button type="button" class="btn btn-secondary mb-2" th:onclick="|window.location='@{/patientInfo/add}'|">Add new Patient Information</button>
+            <button type="button" class="btn btn-secondary mb-2" th:onclick="|window.location='@{/patient-info/add}'|">Add new Patient Information</button>
             <hr>
             <table id="patientInfo-list" class="table table-striped" style="width:100%">
                 <thead>
@@ -35,7 +35,7 @@
                     <td th:text="${patientInfo.address}"></td>
                     <td th:text="${patientInfo.isGender() ? 'Male' : 'Female'}"></td>
                     <td>
-                        <a th:href="@{/patientInfo/detail(id=${patientInfo.id})}" class="btn btn-secondary btn-sm">Details</a>
+                        <a th:href="@{/templates/patient-info/detail(id=${patientInfo.id})}" class="btn btn-secondary btn-sm">Details</a>
                     </td>
                 </tr>
                 </tbody>

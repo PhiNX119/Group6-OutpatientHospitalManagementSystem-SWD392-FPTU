@@ -52,7 +52,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account getAccountById(int id) {
-        return accountRepository.findById(id);
+        return accountRepository.findById(id).orElse(null);
     }
 
     /**

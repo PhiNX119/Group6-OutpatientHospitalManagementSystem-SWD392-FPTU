@@ -19,7 +19,7 @@
                     <p class="card-text"><strong>Date of birth:</strong> <span th:text="${patientInfo.dateOfBirth}"></span></p>
                     <p class="card-text"><strong>Phone number:</strong> <span th:text="${patientInfo.phoneNumber}"></span></p>
                     <p class="card-text"><strong>Gender:</strong> <span th:text="${patientInfo.isGender() ? 'Male' : 'Female'}"></span></p>
-                    <a th:href="@{/patientInfo/list}" class="btn btn-secondary">Back to List</a>
+                    <a th:href="@{/patient-info/list}" class="btn btn-secondary">Back to List</a>
                 </div>
             </div>
         </div>

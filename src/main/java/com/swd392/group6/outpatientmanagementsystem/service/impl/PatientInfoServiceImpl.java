@@ -22,7 +22,7 @@ public class PatientInfoServiceImpl implements PatientInfoService{
     }
 
     @Override
-    public List<PatientInfo> findAll() {
+    public List<PatientInfo> getPatientInfoList() {
         return patientInfoRepository.findAll();
     }
 
