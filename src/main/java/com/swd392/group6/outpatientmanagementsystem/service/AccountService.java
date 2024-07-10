@@ -11,9 +11,11 @@ import java.util.List;
 public interface AccountService {
     CustomUserDetails getUserDetail();
 
-    void saveAccountWithRole(AccountDto accountDto, String roleName);
+    Account getAccountByUsername(String username);
 
-    Account findAccountByUsername(String username);
+    Account getAccountById(int id);
 
-    List<Account> findAll();
+    List<Account> getAccountList();
+
+    void addNewAccount(AccountDto accountDto);
 }

@@ -10,6 +10,6 @@ import java.util.List;
 public interface MedicineService {
     Medicine getMedicineById(Integer id);
     Medicine getMedicineByName(String name);
-    List<Medicine> findAll();
+    List<Medicine> getMedicineList();
     void addNewMedicine(MedicineDto medicineDto);
 }

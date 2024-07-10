@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:insert="~{fragments/bootstrap.html :: bootstrapFragment}"></th:block>
+</head>
+<body>
+<header th:insert="~{fragments/navbar.html :: navbar}"></header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Medicine List</h2>
+            <hr>
+            <button type="button" class="btn btn-secondary mb-2" th:onclick="|window.location='@{/account/add}'|">Add new Account</button>
+            <div th:if="${param.addSuccess}">
+                <div class="alert alert-success">Add medicine successfully.</div>
+            </div>
+            <hr>
+            <table id="account-list" class="table table-striped" style="width:100%">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Date of Birth</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Department</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="account : ${accountList}">
+                    <td th:text="${account.id}"></td>
+                    <td th:text="${account.name}"></td>
+                    <td th:text="${account.dateOfBirth}"></td>
+                    <td th:text="${account.gender? 'Male' : 'Female'}"></td>
+                    <td th:text="${account.role.name}"></td>
+                    <td th:text="${account.department != null ? account.department.name : 'No Department'}"></td>
+                    <td>
+                        <a th:href="@{/account/detail(id=${account.id})}" class="btn btn-secondary btn-sm">Details</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    new DataTable('#account-list');
+</script>
+</body>

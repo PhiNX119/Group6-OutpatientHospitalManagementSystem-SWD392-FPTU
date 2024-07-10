@@ -69,6 +69,11 @@ public class Account implements Serializable {
     public void loadFromDto(AccountDto dto) {
         this.username = dto.getUsername();
         this.password = dto.getPassword();
+        this.name = dto.getName();
+        this.dateOfBirth = dto.getDateOfBirth();
+        this.gender = dto.isGender();
+        this.address = dto.getAddress();
+        this.phoneNumber = dto.getPhoneNumber();
         this.isActive = dto.isActive();
     }
 }

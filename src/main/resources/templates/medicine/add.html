@@ -12,6 +12,10 @@
         <div class="col-md-12">
             <h2>Add new Medicine</h2>
             <hr>
+            <div th:if="${errorMessage != null}">
+                <div class="alert alert-danger" th:text="${errorMessage}"></div>
+            </div>
+            <hr th:if="${errorMessage != null}">
             <form method="post" th:action="@{/medicine/add}" th:object="${medicineDto}" role="form">
                 <div class="form-group">
                     <label for="name">Name</label>

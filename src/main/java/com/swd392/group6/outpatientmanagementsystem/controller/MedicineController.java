@@ -30,7 +30,7 @@ public class MedicineController {
      */
     @GetMapping("/list")
     public String showMedicineList(Model model) {
-        List<Medicine> medicineList = medicineService.findAll();
+        List<Medicine> medicineList = medicineService.getMedicineList();
         model.addAttribute("medicineList", medicineList);
 
         return "medicine/list";
@@ -70,13 +70,18 @@ public class MedicineController {
     public String addNewMedicine(@Valid @ModelAttribute("medicineDto") MedicineDto medicineDto,
                             BindingResult result,
                             Model model) {
+        model.addAttribute("medicineDto", medicineDto);
         if (result.hasErrors()) {
-            model.addAttribute("medicineDto", medicineDto);
             return "medicine/add";
         } else {
-            medicineDto.setActive(true);
-            medicineService.addNewMedicine(medicineDto);
-            return "redirect:/medicine/list?addSuccess";
+            if (medicineService.getMedicineByName(medicineDto.getName()) == null){
+                medicineDto.setActive(true);
+                medicineService.addNewMedicine(medicineDto);
+                return "redirect:/medicine/list?addSuccess";
+            } else {
+                model.addAttribute("errorMessage", "Medicine already exists.");
+                return "medicine/add";
+            }
         }
     }
 }

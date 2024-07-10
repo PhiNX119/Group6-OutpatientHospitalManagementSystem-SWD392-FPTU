@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Setter
 public class DepartmentDto implements Serializable {
 
-    @NotBlank(message = "This field is required.")
+    @NotBlank(message = "Name is mandatory")
     String name;
 
     boolean isActive;
