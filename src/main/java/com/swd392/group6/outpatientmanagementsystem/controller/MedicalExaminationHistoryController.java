@@ -53,8 +53,6 @@ public class MedicalExaminationHistoryController {
         MedicalExaminationHistoryDto medicalExaminationHistoryDto = new MedicalExaminationHistoryDto();
         medicalExaminationHistoryDto.setStaffId(service.GetLoggedInAccount().getAccount().getId());
         model.addAttribute("medicalExaminationHistoryDto", medicalExaminationHistoryDto);
-        model.addAttribute("patientList", service.GetAllPatients());
-        model.addAttribute("dateNow", LocalDate.now() + "");
         return "medical-examination-history/add";
     }
 
@@ -70,7 +68,6 @@ public class MedicalExaminationHistoryController {
                 errors.add(responses[i]);
             }
             model.addAttribute("medicalExaminationHistoryDto", medicalExaminationHistoryDto);
-            model.addAttribute("patientList", service.GetAllPatients());
             model.addAttribute("currStaffId", service.GetLoggedInAccount().getAccount().getId());
             model.addAttribute("errors", errors);
             return "medical-examination-history/add";
@@ -83,7 +80,6 @@ public class MedicalExaminationHistoryController {
             } else {
                 model.addAttribute("response", "Fail to add! Something went wrong!");
                 model.addAttribute("medicalExaminationHistoryDto", medicalExaminationHistoryDto);
-                model.addAttribute("patientList", service.GetAllPatients());
                 model.addAttribute("currStaffId", service.GetLoggedInAccount().getAccount().getId());
                 return "medical-examination-history/add";
             }
