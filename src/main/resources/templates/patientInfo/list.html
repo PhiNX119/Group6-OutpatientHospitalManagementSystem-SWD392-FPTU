@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <th:block th:insert="~{fragments/bootstrap.html :: bootstrapFragment}"></th:block>
+</head>
+<body>
+<header th:insert="~{fragments/navbar.html :: navbar}"></header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Patient Information List</h2>
+            <hr>
+            <button type="button" class="btn btn-secondary mb-2" th:onclick="|window.location='@{/patientInfo/add}'|">Add new Patient Information</button>
+            <hr>
+            <table id="patientInfo-list" class="table table-striped" style="width:100%">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Date of birth</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="patientInfo : ${patientInfoList}">
+                    <td th:text="${patientInfo.id}"></td>
+                    <td th:text="${patientInfo.name}"></td>
+                    <td th:text="${patientInfo.phoneNumber}"></td>
+                    <td th:text="${patientInfo.dateOfBirth}"></td>
+                    <td th:text="${patientInfo.address}"></td>
+                    <td th:text="${patientInfo.isGender() ? 'Male' : 'Female'}"></td>
+                    <td>
+                        <a th:href="@{/patientInfo/detail(id=${patientInfo.id})}" class="btn btn-secondary btn-sm">Details</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    new DataTable('#patientInfo-list');
+</script>
+</body>
