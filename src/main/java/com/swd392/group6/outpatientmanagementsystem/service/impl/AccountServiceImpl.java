@@ -90,11 +90,20 @@ public class AccountServiceImpl implements AccountService {
     public Account findAccountById(int id) { return accountRepository.findById(id); }
 
     @Override
+    public void checkIfExist(String username) {
+        Account account = findAccountByUsername(username);
+        if (account != null) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+    }
+
+    @Override
     public void addNewAccount(AccountDto accountDto) {
         Role role = roleRepository.findByName(accountDto.getRoleName());
         if (role == null) {
             role = checkRoleExist(accountDto.getRoleName());
         }
+        checkIfExist(accountDto.getUsername());
 
         Account account = new Account();
         account.loadFromDto(accountDto, role);

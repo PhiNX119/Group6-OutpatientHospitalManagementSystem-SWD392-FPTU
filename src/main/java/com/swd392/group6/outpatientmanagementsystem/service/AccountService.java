@@ -19,5 +19,7 @@ public interface AccountService {
 
     Account findAccountById(int id);
 
+    void checkIfExist(String username);
+
     void addNewAccount(AccountDto accountDto);
 }
