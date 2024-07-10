@@ -26,7 +26,7 @@ public class PatientInfoDto implements Serializable{
     String name;
 
     @NotNull(message = "This field is required.")
-    @Past(message = "Date of birth must be in the past.")
+    @PastOrPresent(message = "Date of birth must be in the past or present.")
     Date dateOfBirth;
 
     @NotNull(message = "Gender selection is required.")
