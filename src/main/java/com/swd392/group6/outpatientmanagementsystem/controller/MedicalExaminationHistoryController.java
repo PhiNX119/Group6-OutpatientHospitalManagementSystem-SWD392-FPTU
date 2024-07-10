@@ -2,18 +2,15 @@ package com.swd392.group6.outpatientmanagementsystem.controller;
 
 
 import com.swd392.group6.outpatientmanagementsystem.model.dto.MedicalExaminationHistoryDto;
-import com.swd392.group6.outpatientmanagementsystem.model.dto.MedicineDto;
 import com.swd392.group6.outpatientmanagementsystem.model.entity.Account;
 import com.swd392.group6.outpatientmanagementsystem.model.entity.MedicalExaminationHistory;
-import com.swd392.group6.outpatientmanagementsystem.repository.PatientInfoRepository;
+import com.swd392.group6.outpatientmanagementsystem.service.AccountService;
 import com.swd392.group6.outpatientmanagementsystem.service.MedicalExaminationHistoryService;
+import com.swd392.group6.outpatientmanagementsystem.service.MedicalExaminationHistoryValidationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,18 +18,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
 @RequestMapping("/medical-examination-history")
 public class MedicalExaminationHistoryController {
     private final MedicalExaminationHistoryService service;
+    private final MedicalExaminationHistoryValidationService validationService;
+    private final AccountService accountService;
 
 
     @Autowired
-    public MedicalExaminationHistoryController(MedicalExaminationHistoryService service) {
+    public MedicalExaminationHistoryController(MedicalExaminationHistoryService service,
+                                               MedicalExaminationHistoryValidationService validationService,
+                                               AccountService accountService) {
         this.service = service;
+        this.validationService = validationService;
+        this.accountService = accountService;
     }
 
     @GetMapping("/list")
@@ -52,43 +54,40 @@ public class MedicalExaminationHistoryController {
     @GetMapping("/add")
     public String addNewMedicalExaminationHistory(Model model) {
         MedicalExaminationHistoryDto medicalExaminationHistoryDto = new MedicalExaminationHistoryDto();
+        medicalExaminationHistoryDto.setStaffId(getLoggedInAccount().getId());
         model.addAttribute("medicalExaminationHistoryDto", medicalExaminationHistoryDto);
         model.addAttribute("patientList", service.GetAllPatients());
-        model.addAttribute("medicalRecordList", service.GetAllMedicalRecords());
-        model.addAttribute("currStaff", getLoggedInAccount());
         model.addAttribute("dateNow", LocalDate.now() + "");
         return "medical-examination-history/add";
     }
 
 
     @PostMapping("/add")
-    public String addNewCar(@Valid @ModelAttribute("medicalExaminationHistoryDto") MedicalExaminationHistoryDto medicalExaminationHistoryDto,
-                            BindingResult result,
+    public String addNewMedicalExaminationHistory(@Valid @ModelAttribute("medicalExaminationHistoryDto") MedicalExaminationHistoryDto medicalExaminationHistoryDto,
                             Model model) {
-        System.out.println("===========----------- desc: " + medicalExaminationHistoryDto.getDescription());
-        System.out.println("===========----------- date: " + medicalExaminationHistoryDto.getCreatedDate());
-        System.out.println("===========----------- staff: " + medicalExaminationHistoryDto.getStaffId());
-        System.out.println("===========----------- patient: " + medicalExaminationHistoryDto.getPatientId());
-        System.out.println("===========----------- mrId: " + medicalExaminationHistoryDto.getMedicalRecordId());
-        if (result.hasErrors()) {
+        String response = validationService.ValidateFields(medicalExaminationHistoryDto);
+        String[] responses = response.split(" \\|\\| ");
+        if (responses[0].equals("error")) {
+            List<String> errors = new ArrayList<>();
+            for (int i = 1; i < responses.length; i++) {
+                errors.add(responses[i]);
+            }
             model.addAttribute("medicalExaminationHistoryDto", medicalExaminationHistoryDto);
             model.addAttribute("patientList", service.GetAllPatients());
-            model.addAttribute("medicalRecordList", service.GetAllMedicalRecords());
-            model.addAttribute("currStaff", getLoggedInAccount());
-            model.addAttribute("dateNow", LocalDate.now() + "");
-
+            model.addAttribute("currStaffId", getLoggedInAccount().getId());
+            model.addAttribute("errors", errors);
             return "medical-examination-history/add";
         } else {
             boolean isSuccess = service.AddNewMedicalExaminationHistory(medicalExaminationHistoryDto);
             if (isSuccess) {
-                return "redirect:/medical-examination-history/list?addSuccess";
+                model.addAttribute("response", responses[1]);
+                model.addAttribute("patientList", service.GetAllPatients());
+                return "medical-examination-history/add";
             } else {
+                model.addAttribute("response", "Fail to add because selected medical record id already has examination history");
                 model.addAttribute("medicalExaminationHistoryDto", medicalExaminationHistoryDto);
                 model.addAttribute("patientList", service.GetAllPatients());
-                model.addAttribute("medicalRecordList", service.GetAllMedicalRecords());
-                model.addAttribute("dateNow", LocalDate.now() + "");
-                model.addAttribute("currStaff", getLoggedInAccount());
-                model.addAttribute("addFailed", "Fail to add medical history examination.");
+                model.addAttribute("currStaffId", getLoggedInAccount().getId());
                 return "medical-examination-history/add";
             }
         }
@@ -98,10 +97,6 @@ public class MedicalExaminationHistoryController {
 
 
     private Account getLoggedInAccount() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof Account) {
-            return (Account) authentication.getPrincipal();
-        }
-        return null;
+        return accountService.getUserDetail().getAccount();
     }
 }
