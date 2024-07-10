@@ -17,18 +17,15 @@ public class MedicalExaminationHistoryServiceImpl implements MedicalExaminationH
 
     private final MedicalExaminationHistoryRepository repo;
     private final PatientInfoRepository patientRepo;
-    private final MedicalRecordRepository medicalRecordRepo;
     private final AccountRepository accountRepository;
     private final AccountService accountService;
 
     public MedicalExaminationHistoryServiceImpl(MedicalExaminationHistoryRepository repo,
                                                 PatientInfoRepository patientRepo,
-                                                MedicalRecordRepository medicalRecordRepo,
                                                 AccountRepository accountRepository,
                                                 AccountService accountService) {
         this.repo = repo;
         this.patientRepo = patientRepo;
-        this.medicalRecordRepo = medicalRecordRepo;
         this.accountRepository = accountRepository;
         this.accountService = accountService;
     }
@@ -66,10 +63,6 @@ public class MedicalExaminationHistoryServiceImpl implements MedicalExaminationH
         }
     }
 
-    @Override
-    public List<MedicalRecord> GetAllMedicalRecords() {
-        return medicalRecordRepo.findAll();
-    }
 
     @Override
     public CustomUserDetails GetLoggedInAccount() {

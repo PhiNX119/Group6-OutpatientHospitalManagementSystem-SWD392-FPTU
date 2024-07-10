@@ -12,6 +12,5 @@ public interface MedicalExaminationHistoryService {
     List<PatientInfo> GetAllPatients();
     boolean AddNewMedicalExaminationHistory(MedicalExaminationHistoryDto mehDto);
 
-    List<MedicalRecord> GetAllMedicalRecords();
     CustomUserDetails GetLoggedInAccount();
 }
