@@ -25,16 +25,13 @@ import java.util.List;
 public class MedicalExaminationHistoryController {
     private final MedicalExaminationHistoryService service;
     private final MedicalExaminationHistoryValidationService validationService;
-    private final AccountService accountService;
 
 
     @Autowired
     public MedicalExaminationHistoryController(MedicalExaminationHistoryService service,
-                                               MedicalExaminationHistoryValidationService validationService,
-                                               AccountService accountService) {
+                                               MedicalExaminationHistoryValidationService validationService) {
         this.service = service;
         this.validationService = validationService;
-        this.accountService = accountService;
     }
 
     @GetMapping("/list")
@@ -54,7 +51,7 @@ public class MedicalExaminationHistoryController {
     @GetMapping("/add")
     public String addNewMedicalExaminationHistory(Model model) {
         MedicalExaminationHistoryDto medicalExaminationHistoryDto = new MedicalExaminationHistoryDto();
-        medicalExaminationHistoryDto.setStaffId(getLoggedInAccount().getId());
+        medicalExaminationHistoryDto.setStaffId(service.GetLoggedInAccount().getAccount().getId());
         model.addAttribute("medicalExaminationHistoryDto", medicalExaminationHistoryDto);
         model.addAttribute("patientList", service.GetAllPatients());
         model.addAttribute("dateNow", LocalDate.now() + "");
@@ -74,7 +71,7 @@ public class MedicalExaminationHistoryController {
             }
             model.addAttribute("medicalExaminationHistoryDto", medicalExaminationHistoryDto);
             model.addAttribute("patientList", service.GetAllPatients());
-            model.addAttribute("currStaffId", getLoggedInAccount().getId());
+            model.addAttribute("currStaffId", service.GetLoggedInAccount().getAccount().getId());
             model.addAttribute("errors", errors);
             return "medical-examination-history/add";
         } else {
@@ -87,16 +84,10 @@ public class MedicalExaminationHistoryController {
                 model.addAttribute("response", "Fail to add! Something went wrong!");
                 model.addAttribute("medicalExaminationHistoryDto", medicalExaminationHistoryDto);
                 model.addAttribute("patientList", service.GetAllPatients());
-                model.addAttribute("currStaffId", getLoggedInAccount().getId());
+                model.addAttribute("currStaffId", service.GetLoggedInAccount().getAccount().getId());
                 return "medical-examination-history/add";
             }
         }
     }
 
-
-
-
-    private Account getLoggedInAccount() {
-        return accountService.getUserDetail().getAccount();
-    }
 }
