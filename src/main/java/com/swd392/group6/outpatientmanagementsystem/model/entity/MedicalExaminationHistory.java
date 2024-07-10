@@ -7,6 +7,8 @@ import org.hibernate.annotations.Nationalized;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,11 +41,14 @@ public class MedicalExaminationHistory implements Serializable{
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 
-    public void LoadFromDto(MedicalExaminationHistoryDto mehDto) {
+    public void LoadFromDto(MedicalExaminationHistoryDto mehDto) throws ParseException {
         this.examinationDescription = mehDto.getDescription();
         this.patientInfo = mehDto.getPatientInfo();
         this.account = mehDto.getAccount();
-        this.createDate = Date.valueOf(String.valueOf(mehDto.getCreatedDate()));
+        String dateString = mehDto.getCreatedDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date utilDate = sdf.parse(dateString);
+        this.createDate = new java.sql.Date(utilDate.getTime());
         this.medicalRecord = mehDto.getMedicalRecord();
     }
 }

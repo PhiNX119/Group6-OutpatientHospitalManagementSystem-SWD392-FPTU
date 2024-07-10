@@ -45,18 +45,27 @@ public class MedicalExaminationHistoryServiceImpl implements MedicalExaminationH
 
     @Override
     public boolean AddNewMedicalExaminationHistory(MedicalExaminationHistoryDto mehDto) {
+        MedicalExaminationHistory meh = new MedicalExaminationHistory();
         try {
-            MedicalExaminationHistory meh = new MedicalExaminationHistory();
             meh.LoadFromDto(mehDto);
-            meh.setAccount(accountRepository.findById(mehDto.getStaffId()).get());
-            meh.setMedicalRecord(medicalRecordRepo.findById(mehDto.getMedicalRecordId()).get());
-            meh.setPatientInfo(patientRepo.findById(mehDto.getPatientId()).get());
-            repo.save(meh);
-            return true;
+
         } catch (Exception ex) {
-            System.out.println(ex);
-            return false;
+
         }
+
+        Account account = accountRepository.findById(mehDto.getStaffId())
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+        meh.setAccount(account);
+
+        PatientInfo patientInfo = patientRepo.findById(mehDto.getPatientId())
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
+        meh.setPatientInfo(patientInfo);
+
+        MedicalRecord medicalRecord = medicalRecordRepo.findById(mehDto.getMedicalRecordId())
+                .orElseThrow(() -> new RuntimeException("Medical record not found"));
+        meh.setMedicalRecord(medicalRecord);
+        repo.save(meh);
+        return true;
     }
 
     @Override

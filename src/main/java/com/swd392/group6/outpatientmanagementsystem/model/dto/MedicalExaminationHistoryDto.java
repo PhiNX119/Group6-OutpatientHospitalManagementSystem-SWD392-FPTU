@@ -21,15 +21,11 @@ import java.util.Date;
 public class MedicalExaminationHistoryDto implements Serializable {
     @NotNull(message = "This field is required.")
     int id;
-    @NotNull(message = "This field is required.")
-    Date createdDate;
+    String createdDate;
     @NotBlank(message = "This field is required.")
     String description;
-    @NotNull(message = "This field is required.")
     int staffId;
-    @NotNull(message = "This field is required.")
     int patientId;
-    @NotNull(message = "This field is required.")
     int medicalRecordId;
 
     PatientInfo patientInfo;
@@ -38,7 +34,7 @@ public class MedicalExaminationHistoryDto implements Serializable {
 
     public void loadFromEntity(MedicalExaminationHistory entity) {
         this.id = entity.getId();
-        this.createdDate = entity.getCreateDate();
+        this.createdDate = entity.getCreateDate() + "";
         this.description = entity.getExaminationDescription();
         this.staffId = entity.getAccount().getId();
         this.patientId = entity.getPatientInfo().getId();

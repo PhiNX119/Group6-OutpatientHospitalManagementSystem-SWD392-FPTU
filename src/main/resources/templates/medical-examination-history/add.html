@@ -7,9 +7,13 @@
 </head>
 <body>
 <header th:insert="~{fragments/navbar.html :: navbar}"></header>
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            <div th:if="${addFailed}">
+                <div class="alert alert-danger">Fail to add medical history examination.</div>
+            </div>
             <h2>Add new Medical Examination History</h2>
             <hr>
             <form method="post" th:action="@{/medical-examination-history/add}" th:object="${medicalExaminationHistoryDto}" role="form">
@@ -21,27 +25,74 @@
                 </div>
                 <div class="form-group">
                     <label for="patientSelection">Patient</label>
-                    <select id="patientSelection" required>
+                    <select onchange="handleSelect(event)" id="patientSelection"   required>
                         <option value="" disabled selected>Select a patient</option>
                         <option th:each="patient : ${patientList}"
                                 th:value="${patient.id}"
-                                th:text="${patient.id}. ${patient.name}">
+                                th:text="${patient.id} + '. ' + ${patient.name}">
                         </option>
                     </select>
+                    <div>
+                        <input hidden type="text" class="form-control" th:field="*{patientId}">
+                        <p th:errors="*{patientId}" class="text-danger"
+                           th:if="${#fields.hasErrors('patientId')}"></p>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="medicalRecordSelection">Medical Record</label>
-                    <select id="medicalRecordSelection" required>
+                    <select onchange="handleSelect(event)" id="medicalRecordSelection"  required>
                         <option value="" disabled selected>Select a patient</option>
                         <option th:each="mr : ${medicalRecordList}"
                                 th:value="${mr.id}"
                                 th:text="${mr.id}">
                         </option>
                     </select>
+                    <div>
+                        <input hidden type="text" class="form-control" th:field="*{medicalRecordId}">
+                        <p th:errors="*{medicalRecordId}" class="text-danger"
+                           th:if="${#fields.hasErrors('medicalRecordId')}"></p>
+                    </div>
                 </div>
+                <div class="form-group">
+                    <label for="staffId">Staff Id</label>
+                    <input id="staffId" type="text" th:field="*{staffId}" value="1">
+                </div>
+                <div class="form-group">
+                    <label for="createdDate">Created Date</label>
+                    <input id="createdDate" type="text" th:field="*{createdDate}">
+                </div>
+
                 <button type="submit" class="btn btn-secondary">Submit</button>
             </form>
         </div>
     </div>
 </div>
 </body>
+
+<script>
+    function handleSelect(e) {
+        e.target.parentElement.querySelector('input').value = e.target.value;
+    }
+
+    function setCurrentDate(inputId) {
+            const dateInput = document.getElementById(inputId);
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+            const day = String(currentDate.getDate()).padStart(2, '0');
+
+            const formattedDate = `${year}-${month}-${day}`;
+            dateInput.value = formattedDate;
+    }
+
+    function PageReload() {
+        const patientSlt = document.getElementById('patientSelection');
+        const medicalRecordSlt = document.getElementById('medicalRecordSelection');
+        patientSlt.value = patientSlt.parentElement.querySelector('input').value;
+        medicalRecordSlt.value = medicalRecordSlt.parentElement.querySelector('input').value;
+    }
+
+
+    setCurrentDate('createdDate');
+    PageReload();
+</script>
