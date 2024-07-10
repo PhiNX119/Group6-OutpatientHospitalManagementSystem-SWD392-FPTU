@@ -5,6 +5,8 @@ import com.swd392.group6.outpatientmanagementsystem.repository.DepartmentReposit
 import com.swd392.group6.outpatientmanagementsystem.service.DepartmentService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentRepository departmentRepository;
@@ -16,6 +18,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department findDepartmentByName(String name) {
         return departmentRepository.findByName(name);
+    }
+
+    @Override
+    public List<Department> findAllDepartments() {
+        return departmentRepository.findAll();
     }
 
     @Override

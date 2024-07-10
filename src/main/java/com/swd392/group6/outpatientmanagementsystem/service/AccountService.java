@@ -16,4 +16,8 @@ public interface AccountService {
     Account findAccountByUsername(String username);
 
     List<Account> findAll();
+
+    Account findAccountById(int id);
+
+    void addNewAccount(AccountDto accountDto);
 }

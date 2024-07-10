@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -85,5 +84,15 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<Account> findAll() {
         return accountRepository.findAll();
+    }
+
+    @Override
+    public Account findAccountById(int id) { return accountRepository.findById(id); }
+
+    @Override
+    public void addNewAccount(AccountDto accountDto) {
+        Account account = new Account();
+        account.loadFromDto(accountDto);
+        accountRepository.save(account);
     }
 }
