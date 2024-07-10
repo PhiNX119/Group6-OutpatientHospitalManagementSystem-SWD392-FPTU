@@ -84,7 +84,7 @@ public class MedicalExaminationHistoryController {
                 model.addAttribute("patientList", service.GetAllPatients());
                 return "medical-examination-history/add";
             } else {
-                model.addAttribute("response", "Fail to add because selected medical record id already has examination history");
+                model.addAttribute("response", "Fail to add! Something went wrong!");
                 model.addAttribute("medicalExaminationHistoryDto", medicalExaminationHistoryDto);
                 model.addAttribute("patientList", service.GetAllPatients());
                 model.addAttribute("currStaffId", getLoggedInAccount().getId());
