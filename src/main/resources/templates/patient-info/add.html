@@ -15,7 +15,7 @@
                 <div class="alert alert-success">Add patient information successfully.</div>
             </div>
             <hr>
-            <form method="post" th:action="@{/templates/patient-info/add}" th:object="${patientInfoDto}" role="form">
+            <form method="post" th:action="@{/patient-info/add}" th:object="${patientInfoDto}" role="form">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Name">

@@ -39,12 +39,10 @@ public class MedicalExaminationHistoryServiceImpl implements MedicalExaminationH
             MedicalExaminationHistory medicalExaminationHistory = new MedicalExaminationHistory();
             medicalExaminationHistory.LoadFromDto(medicalExaminationHistoryDto);
 
-            Account account = accountRepository.findById(medicalExaminationHistoryDto.getStaffId())
-                    .orElseThrow(() -> new RuntimeException("Account not found"));
+            Account account = accountRepository.findById(medicalExaminationHistoryDto.getStaffId()).get();
             medicalExaminationHistory.setAccount(account);
 
-            PatientInfo patientInfo = patientInfoRepository.findById(medicalExaminationHistoryDto.getPatientId())
-                    .orElseThrow(() -> new RuntimeException("Patient not found"));
+            PatientInfo patientInfo = patientInfoRepository.findById(medicalExaminationHistoryDto.getPatientId()).get();
             medicalExaminationHistory.setPatientInfo(patientInfo);
 
             medicalExaminationHistoryRepository.save(medicalExaminationHistory);
